@@ -38,6 +38,7 @@ class DashboardController extends AbstractDashboardController
         return Crud::new()
             ->renderContentMaximized()
             -> showEntityActionsInlined();
+            // ->setEntityPermission('ROLE_ADMIN');
             
             
     }
@@ -56,19 +57,25 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Products');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-                   MenuItem::linkToCrud('create product', 'fas fa-plus',Product::class)->setAction(Crud::PAGE_NEW),
+                   MenuItem::linkToCrud('create product', 'fas fa-plus',Product::class)->setAction(Crud::PAGE_NEW)     
+                   ->setPermission('ROLE_ADMIN'),
                    MenuItem::linkToCrud('show products', 'fas fa-eye',Product::class)
         ]);
         yield MenuItem::section('Categories');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('create category', 'fas fa-plus',Category::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('create category', 'fas fa-plus',Category::class)->setAction(Crud::PAGE_NEW)
+            ->setPermission('ROLE_ADMIN'),
             MenuItem::linkToCrud('show Categories', 'fas fa-eye',Category::class)
+            
         ]);
         yield MenuItem::section('Users');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('create user', 'fas fa-plus',User::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('create user', 'fas fa-plus',User::class)->setAction(Crud::PAGE_NEW)
+            ->setPermission('ROLE_ADMIN'),
             MenuItem::linkToCrud('show users', 'fas fa-eye',User::class)
         ]);
+        yield MenuItem::linkToCrud('Questions', 'fa fa-question-circle', Product::class)
+        ->setPermission('ROLE_ADMIN');
 
     }
 }
