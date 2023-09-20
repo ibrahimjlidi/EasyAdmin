@@ -50,7 +50,6 @@ final class UserFactory extends ModelFactory
             'email' => 'email@email.com',
             'is_verified' => true,
             'locate' => 'fr',
-            'password' => '$2y$13$w7usfxJhm1MP8qjT8TDNzOq.UuYWFuZszfwqX/agMwG8JeqWgacZ.',
             'roles' => ['ROLE_ADMIN'],
             'username' => 'Administrator',
         ];

@@ -1,0 +1,14 @@
+# easy_admin:
+#     site_name: 'Your Admin Dashboard'
+#     # ...
+
+#     design:
+#         menu:
+#             - { label: 'Dashboard', icon: 'dashboard', route: 'admin_dashboard' } # Add this line
+
+# # ...
+
+# dashboard:
+#     name: 'Admin Dashboard'
+#     route_name: 'admin_dashboard'
+#     controller: 'App\Controller\Admin\DashboardController' # Replace with your custom controller
