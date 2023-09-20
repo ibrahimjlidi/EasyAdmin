@@ -22,6 +22,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use function Symfony\Component\Translation\t;
+use Symfony\Component\Translation\TranslatableMessage;
 
 
 
@@ -42,20 +45,26 @@ class ProductCrudController extends AbstractCrudController
                ->add('price')
                ->add('active')
                ->add('id')
+               ->add('image')
+               ->add('publisher')
+               
            ;
        }
 
     public function configureCrud(Crud $crud): Crud
 {
     return $crud
-        ->setSearchFields(['name', 'description'])
-        ->setSearchFields(['name', 'description', 'seller.email', 'seller.address.zipCode'])
-        ->setSearchFields(null)
+        ->setSearchFields(['id','located','name','price','active','image'])
+        // ->setSearchFields(['name', 'description'])
+        // ->setSearchFields(null)
         ->setAutofocusSearch()
         ->setPaginatorPageSize(5)
+        ->setDateIntervalFormat('%%y Year(s) %%m Month(s) %%d Day(s)')
         ->setPaginatorRangeSize(4)
         ->setPaginatorUseOutputWalkers(true)
         ->setPaginatorFetchJoinCollection(true)
+      
+
     ;
 }
   public function configureActions(Actions $actions): Actions
@@ -64,9 +73,18 @@ class ProductCrudController extends AbstractCrudController
 
     return $actions
     
+    // ->remove(Crud::PAGE_INDEX, Action::NEW)
+    // ->remove(Crud::PAGE_DETAIL, Action::EDIT)
+    // ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+    //     return $action->setIcon('fa fa-file-alt')->setLabel(false);
+    // })
+    // ->disable(Action::NEW, Action::DELETE)
+    
+    ->add(Crud::PAGE_INDEX, Action::DETAIL)
+    ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
+    ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::DELETE, Action::EDIT])
     ->add(Crud::PAGE_EDIT,$duplicate);
 
-    
   }
     
     public function configureFields(string $pageName): iterable
@@ -74,39 +92,25 @@ class ProductCrudController extends AbstractCrudController
         return [
         
             IdField::new('id')->hideOnForm(),
-            TextField::new('name','Label')->setRequired(false),
+            TextField::new('name')->setRequired(false),
             MoneyField::new('price')->setCurrency('EUR'),
             TextEditorField::new('description'),
             ImageField::new('image')
-            ->setBasePath(self::PRODUCTS_BASE_PATH)
-            ->setUploadDir(self::PRODUCTS_UPLOAD_PATH)
-            ->setSortable(false),
+                 ->setBasePath(self::PRODUCTS_BASE_PATH)
+                 ->setUploadDir(self::PRODUCTS_UPLOAD_PATH)
+                 ->setSortable(false),
             BooleanField::new('active'),
+            AssociationField::new('publisher')->hideOnForm(),
             AssociationField::new('category')->setQueryBuilder(function(QueryBuilder $queryBuilder){
                 $queryBuilder->where('entity.active =true');
             }),
-            DateTimeField::new('updated_at')->hideOnForm(),
+            DateTimeField::new('updated_at')->hideOnForm()->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
             DateTimeField::new('created_at')->hideOnForm(),
+    
         ];
       
     }
-    /*
-    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        if (!$entityInstance instanceof Product) return;
-            $entityInstance->setCreatedAt( new \DateTimeImmutable); 
-            parent::persistEntity($entityManager , $entityInstance);        
-    }
-    
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        if (!$entityInstance instanceof Product) return;
-        $entityInstance->setUpdatedAt( new \DateTimeImmutable); 
-        parent::updateEntity($entityManager , $entityInstance);        
-        
-    }
-    */
-     
+
     public function duplicateProduct(AdminContext $context,AdminUrlGenerator $adminUrlGenerator, EntityManagerInterface $em): Response {
         /** @var Product $product  */
         

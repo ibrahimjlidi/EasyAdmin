@@ -37,7 +37,7 @@ class CategoryCrudController extends AbstractCrudController
       ->add(Crud::PAGE_EDIT,$duplicate)
       ->reorder(Crud::PAGE_EDIT,[self::ACTION_DUPLICATE,Action::SAVE_AND_RETURN]);
     }
-    
+  
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -95,13 +95,13 @@ class CategoryCrudController extends AbstractCrudController
     return $crud
         // ...
       
-
-        ->setSearchFields(['name', 'description'])
+        ->setDateIntervalFormat('%%y Year(s) %%m Month(s) %%d Day(s)')
+        ->setSearchFields(['id'])
         // use dots (e.g. 'seller.email') to search in Doctrine associations
-        ->setSearchFields(['name', 'description', 'seller.email', 'seller.address.zipCode'])
-        // set it to null to disable and hide the search box
-        ->setSearchFields(null)
-        // call this method to focus the search input automatically when loading the 'index' page
+        // ->setSearchFields(['name', 'description'])
+       
+        // ->setSearchFields(null)
+     
         ->setAutofocusSearch()
         // the max number of entities to display per page
         ->setPaginatorPageSize(10)

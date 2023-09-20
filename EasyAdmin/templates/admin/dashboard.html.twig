@@ -1,0 +1,72 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="col">
+     <div class="row p-5">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-shopping-cart fa-4x" style ="color : #3eae8a"></i>
+                        <h5 class="card-title">Number of Products</h5>
+                        <p class="card-text">{{ numberOfProducts }} products</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-4x"  style ="color : #149ada"></i>
+                        <h5 class="card-title">Number of Users</h5>
+                        <p class="card-text">{{ numberOfUsers }} users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-folder fa-4x"  style ="color : #cea71e"></i>
+                        <h5 class="card-title">Number of Categories</h5>
+                        <p class="card-text">{{ numberOfCategories }} categories</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<div class="row" ><h1>Chart</h1></div>
+<div class ="row ">
+<canvas id="myChart" style="display: block; box-sizing: border-box; height: 20px; width: 100px;"></canvas>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chartData = {
+        type: 'bar',
+        data: {
+            labels: ['Products', 'Users', 'Category'],
+            datasets: [
+        {
+                label: 'Products',
+                data: [{{ numberOfProducts }}, {{ numberOfUsers }}, {{ numberOfCategories }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                 
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+               
+                ],
+                borderWidth: 1,
+            },
+        ],
+        },
+        
+    };
+    new Chart(ctx, chartData);
+</script>
+</div>
+</div>
+{% endblock %}
