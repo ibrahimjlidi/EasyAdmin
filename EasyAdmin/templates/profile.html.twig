@@ -1,25 +1,29 @@
-{# templates/profile.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}User Profile{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>User Profile</h1>
-    
-    <div>
-        <strong>Username:</strong> {{ user.username }}
+    <div class="user-profile">
+        <h1>User Profile</h1>
+        
+        <div class="profile-info">
+            <strong>Username:</strong> {{ user.username }}
+        </div>
+        
+        <div class="profile-info">
+            <strong>Email:</strong> {{ user.email }}
+        </div>
+        
+        <a href="{{ path('admin') }}" class="btn btn-secondary">Back to Home</a>
+        {# You can add more user profile information here #}
+        
+        {# <a href="{{ path('edit_profile') }}">Edit Profile</a> #}
+        {# Assuming you have an "edit_profile" route for editing user profiles #}
+        
+        {# <a href="{{ path('change_password') }}">Change Password</a> #}
+        {# Assuming you have a "change_password" route for changing passwords #}
     </div>
     
-    <div>
-        <strong>Email:</strong> {{ user.email }}
-    </div>
-      <a href="{{ path('admin') }}" class="btn btn-secondary">Back to Home</a>
-    {# You can add more user profile information here #}
-    
-    {# <a href="{{ path('edit_profile') }}">Edit Profile</a> #}
-    {# Assuming you have an "edit_profile" route for editing user profiles #}
-    
-    {# <a href="{{ path('change_password') }}">Change Password</a> #}
-    {# Assuming you have a "change_password" route for changing passwords #}
 {% endblock %}

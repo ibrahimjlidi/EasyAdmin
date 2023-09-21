@@ -101,31 +101,31 @@ $chartDataJson = $this->serializer->serialize($chartData, 'json');
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToUrl('Search in Google', 'fab fa-google', 'https://www.google.com');
-        yield MenuItem::linkToUrl('Visit Elite Auto','fa fa-car', 'https://www.elite-auto.fr');
-        yield MenuItem::section('Products');
+        yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
+        yield MenuItem::linkToUrl('Recherche Google', 'fab fa-google', 'https://www.google.com');
+        yield MenuItem::linkToUrl('Visite Elite Auto','fa fa-car', 'https://www.elite-auto.fr');
+        yield MenuItem::section('Produits');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')
                           ->setSubItems([
-                            MenuItem::linkToCrud('create product', 'fas fa-plus',Product::class)->setAction(Crud::PAGE_NEW)     
+                            MenuItem::linkToCrud('creé produit', 'fas fa-plus',Product::class)->setAction(Crud::PAGE_NEW)     
                           ->setPermission('ROLE_ADMIN'),
-                            MenuItem::linkToCrud('show products', 'fas fa-eye',Product::class)
+                            MenuItem::linkToCrud('voir produits', 'fas fa-eye',Product::class)
                                        ]);
         yield MenuItem::section('Categories');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('create category', 'fas fa-plus',Category::class)->setAction(Crud::PAGE_NEW)
+            MenuItem::linkToCrud('creé categorie', 'fas fa-plus',Category::class)->setAction(Crud::PAGE_NEW)
             ->setPermission('ROLE_ADMIN'),
-            MenuItem::linkToCrud('show Categories', 'fas fa-eye',Category::class),
+            MenuItem::linkToCrud('voir Categories', 'fas fa-eye',Category::class),
         ]);
-        yield MenuItem::section('Users')->setPermission('ROLE_ADMIN');
+        yield MenuItem::section('Utilisateurs')->setPermission('ROLE_ADMIN');
         yield MenuItem::subMenu('Actions', 'fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('create user', 'fas fa-plus',User::class)->setAction(Crud::PAGE_NEW)
+            MenuItem::linkToCrud('creé utilisateur', 'fas fa-plus',User::class)->setAction(Crud::PAGE_NEW)
             ->setPermission('ROLE_ADMIN'),
-            MenuItem::linkToCrud('show users', 'fas fa-eye',User::class)
+            MenuItem::linkToCrud('voir utilisateur', 'fas fa-eye',User::class)
         ]) ->setPermission('ROLE_ADMIN');
-        yield MenuItem::section('Settings');
-        yield MenuItem::linkToRoute('My Profile', 'fa fa-id-card', 'user_profile');
-        yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
+        yield MenuItem::section('Parametres');
+        yield MenuItem::linkToRoute('Mon compte', 'fa fa-id-card', 'user_profile');
+        yield MenuItem::linkToLogout('Deconnxion', 'fa fa-sign-out');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
