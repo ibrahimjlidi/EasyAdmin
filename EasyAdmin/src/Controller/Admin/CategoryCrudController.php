@@ -34,6 +34,7 @@ class CategoryCrudController extends AbstractCrudController
           ->setCssClass('btn btn-info');
   
       return $actions
+      ->add(Crud::PAGE_INDEX, Action::DETAIL)
       ->add(Crud::PAGE_EDIT,$duplicate)
       ->reorder(Crud::PAGE_EDIT,[self::ACTION_DUPLICATE,Action::SAVE_AND_RETURN]);
     }

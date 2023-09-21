@@ -36,8 +36,6 @@ class UserCrudController extends AbstractCrudController
       ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
       ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::EDIT, Action::DELETE])
       ->add(Crud::PAGE_EDIT,$duplicate);
-  
-      
     }
      /**
      * @Route("/profile", name="user_profile")
