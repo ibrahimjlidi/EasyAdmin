@@ -37,7 +37,7 @@ class CategoryCrudController extends AbstractCrudController
       ->add(Crud::PAGE_EDIT,$duplicate)
       ->reorder(Crud::PAGE_EDIT,[self::ACTION_DUPLICATE,Action::SAVE_AND_RETURN]);
     }
-    
+  
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -89,4 +89,32 @@ class CategoryCrudController extends AbstractCrudController
 
         return $this->redirect($url);
     }
+    
+    public function configureCrud(Crud $crud): Crud
+{
+    return $crud
+        // ...
+      
+        ->setDateIntervalFormat('%%y Year(s) %%m Month(s) %%d Day(s)')
+        ->setSearchFields(['id'])
+        // use dots (e.g. 'seller.email') to search in Doctrine associations
+        // ->setSearchFields(['name', 'description'])
+       
+        // ->setSearchFields(null)
+     
+        ->setAutofocusSearch()
+        // the max number of entities to display per page
+        ->setPaginatorPageSize(10)
+        // the number of pages to display on each side of the current page
+        // e.g. if num pages = 35, current page = 7 and you set ->setPaginatorRangeSize(4)
+        // the paginator displays: [Previous]  1 ... 3  4  5  6  [7]  8  9  10  11 ... 35  [Next]
+        // set this number to 0 to display a simple "< Previous | Next >" pager
+        ->setPaginatorRangeSize(4)
+      
+        // these are advanced options related to Doctrine Pagination
+        // (see https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/tutorials/pagination.html)
+        ->setPaginatorUseOutputWalkers(true)
+        ->setPaginatorFetchJoinCollection(true)
+    ;
+}
 }

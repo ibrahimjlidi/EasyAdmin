@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+// use Symfony\Component\Translation\TranslatableInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-class Product
+class Product 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,6 +40,9 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?User $publisher = null;
 
     public function getId(): ?int
     {
@@ -139,4 +144,18 @@ class Product
 
         return $this;
     }
+
+    public function getPublisher(): ?User
+    {
+        return $this->publisher;
+    }
+
+    public function setPublisher(?User $publisher): static
+    {
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    
 }

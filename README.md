@@ -1,0 +1,2 @@
+# EasyAdmin
+config database  .env

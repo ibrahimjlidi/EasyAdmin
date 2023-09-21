@@ -1,17 +1,50 @@
 security:
+    # role_hierarchy:
+    #     ROLE_ADMIN: [ROLE_USER]
+
+    access_decision_manager:
+        strategy: unanimous
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        # in_memory:
+        #    memory:
+        #       users:
+        #         admin:
+        #           password: $2y$13$Lfx4B7HuOXtbPdH.T8TD0Op3cexwOspuyz7Pw676KXLVkzuUJHb5O
+        #           roles: 'ROLE_ADMIN'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            # pattern: ^/
+            # provider: in_memory
+            # form_login:
+            #     login_path: /login
+            #     check_path: /login
+            # logout: true
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_login
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
+        
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -22,8 +55,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/admin, roles: IS_AUTHENTICATED_ANONYMOUS_USER }
+        - { path: ^/admin, roles: ROLE_USER }
+        # - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUS_USER }
         # - { path: ^/profile, roles: ROLE_USER }
+       
 
 when@test:
     security:

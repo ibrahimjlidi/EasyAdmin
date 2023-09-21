@@ -1,0 +1,64 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- You can also include your custom CSS file here if needed -->
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <img src="https://img.freepik.com/free-vector/key-concept-illustration_114360-6305.jpg?size=626&ext=jpg?"
+          class="img-fluid" alt="Phone image">
+      </div>
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+        <form method="post" name ="login">
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="username">Email address</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-lg" placeholder="Email address" required autofocus>
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="password">Password</label>
+           <input type="password" name="password" id="inputPassword" class="form-control form-control-lg" placeholder="Password" required>
+               <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+          </div>
+
+          <div class="d-flex justify-content-around align-items-center mb-4">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="remember" checked />
+              <label class="form-check-label" for="remember"> Remember me </label>
+            </div>
+            <a href="reset-password">Forgot password?</a>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+  <a href="{{ path('app_register') }}" style="
+    margin-left: 195px;">Register</a>
+      
+        </form>
+      </div>
+    </div>
+  </div>
+  <style>
+  .divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}</style>
+{% endblock %}

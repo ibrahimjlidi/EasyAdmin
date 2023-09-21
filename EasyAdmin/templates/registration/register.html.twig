@@ -1,0 +1,123 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Include your custom CSS file here if needed -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <!-- Image Column -->
+        <div class="col-md-6" style="
+    background-color: white;
+">
+            <img src="https://img.freepik.com/free-vector/key-concept-illustration_114360-6305.jpg?size=750&ext=jpg?" alt="Image" class="img-fluid">
+        </div>
+        <!-- Registration Form Column -->
+        <div class="col-md-6">
+            <div class="custom-registration-form" style="
+    padding-left: 500px;
+    padding-right: 500px;
+">
+                <h1>Register </h1>
+
+                {{ form_errors(registrationForm) }}
+
+                {{ form_start(registrationForm) }}
+                <div class="form-group">
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password'
+                    }) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(registrationForm.username) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(registrationForm.locate) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(registrationForm.is_verified) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(registrationForm.agreeTerms) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Register</button>
+                <a href="{{ path('app_login') }}"  style="
+    margin-left: 270px;">Login</a>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+/* Custom CSS styles for the registration form and image */
+{# .custom-registration-form {
+    background-color: #fff; /* Form background color */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+} #}
+
+.custom-registration-form h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333; /* Header text color */
+}
+
+.custom-registration-form .form-group {
+    margin-bottom: 20px;
+}
+
+.custom-registration-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #666; /* Label text color */
+}
+
+.custom-registration-form input[type="text"],
+.custom-registration-form input[type="password"],
+.custom-registration-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.custom-registration-form .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Button background color */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Image Column Styles */
+.container {
+    background-color: #fff;
+}
+.col-md-6 img {
+    max-width: 20%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Add more styles as needed */
+</style>
+{% endblock %}
