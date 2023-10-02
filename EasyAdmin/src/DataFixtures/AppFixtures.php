@@ -9,6 +9,7 @@ use App\Entity\Product;
 use App\Factory\CategoryFactory;
 use App\Factory\ProductFactory;
 use App\Factory\UserFactory;
+use App\Factory\StockFactory;
 
 class AppFixtures extends Fixture
 {
@@ -36,5 +37,6 @@ class AppFixtures extends Fixture
         UserFactory::createMany(1 );
         ProductFactory::createMany(10);
         CategoryFactory::createMany(10);
+        StockFactory::createMany(10);
     }
 }

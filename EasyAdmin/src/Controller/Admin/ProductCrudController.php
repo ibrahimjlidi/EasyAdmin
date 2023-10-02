@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use function Symfony\Component\Translation\t;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatableMessage;
 
 
@@ -46,9 +47,7 @@ class ProductCrudController extends AbstractCrudController
                ->add('active')
                ->add('id')
                ->add('image')
-               ->add('publisher')
-               
-           ;
+               ->add('publisher');
        }
 
     public function configureCrud(Crud $crud): Crud
@@ -67,25 +66,45 @@ class ProductCrudController extends AbstractCrudController
 
     ;
 }
-  public function configureActions(Actions $actions): Actions
-  {
-        $duplicate =Action::new(self::ACTION_DUPLICATE)->linkToCrudAction('duplicateProduct');
+
+
+    /**
+     * @Route("/api/products", name="api_products_list", methods={"GET"})
+     */
+public function listProductsForAngular(EntityManagerInterface $entityManager): JsonResponse
+{
+    $productRepository = $entityManager->getRepository(Product::class);
+    $products = $productRepository->findAll();
+
+    // Serialize the products to JSON
+    $serializedProducts = [];
+    foreach ($products as $product) {
+        $serializedProducts[] = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'price' => $product->getPrice(),
+            'description' => $product->getDescription(),
+            // Add other fields as needed
+        ];
+    }
+
+    return new JsonResponse($serializedProducts);
+}
+public function configureActions(Actions $actions): Actions
+{
+    $duplicate = Action::new(self::ACTION_DUPLICATE)->linkToCrudAction('duplicateProduct');
+    
+    // Add a new action to list products for Angular
+    $listForAngular = Action::new('listForAngular', 'List for Angular')
+        ->linkToRoute('list_products_for_angular');
 
     return $actions
-    
-    // ->remove(Crud::PAGE_INDEX, Action::NEW)
-    // ->remove(Crud::PAGE_DETAIL, Action::EDIT)
-    // ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-    //     return $action->setIcon('fa fa-file-alt')->setLabel(false);
-    // })
-    // ->disable(Action::NEW, Action::DELETE)
-    
-    ->add(Crud::PAGE_INDEX, Action::DETAIL)
-    ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
-    ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::DELETE, Action::EDIT])
-    ->add(Crud::PAGE_EDIT,$duplicate);
-
-  }
+        ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
+        ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::DELETE, Action::EDIT])
+        ->add(Crud::PAGE_EDIT, $duplicate)
+        ->add(Crud::PAGE_INDEX, $listForAngular); // Add the new action
+}
     
     public function configureFields(string $pageName): iterable
     {
@@ -100,7 +119,7 @@ class ProductCrudController extends AbstractCrudController
                  ->setUploadDir(self::PRODUCTS_UPLOAD_PATH)
                  ->setSortable(false),
             BooleanField::new('active'),
-            AssociationField::new('publisher')->hideOnForm(),
+            AssociationField::new('publisher')->hideOnForm()->onlyOnIndex(),
             AssociationField::new('category')->setQueryBuilder(function(QueryBuilder $queryBuilder){
                 $queryBuilder->where('entity.active =true');
             }),

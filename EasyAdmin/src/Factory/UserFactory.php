@@ -48,6 +48,7 @@ final class UserFactory extends ModelFactory
     {
         return [
             'email' => 'email@email.com',
+            'password' => '$2a$04$rWI1su3XANdX6tSN5mfbEeFPIHnroJDkyql5xPtfqPF6rDWZJ2MrC',
             'is_verified' => true,
             'locate' => 'fr',
             'roles' => ['ROLE_ADMIN'],

@@ -4,7 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="col">
-     <div class="row p-5">
+     {# <div class="row p-5">
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
@@ -32,41 +32,76 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-<div class="row" ><h1>Chart</h1></div>
-<div class ="row ">
-<canvas id="myChart" style="display: block; box-sizing: border-box; height: 20px; width: 100px;"></canvas>
+        </div> #}
+   <div class="row"><h1>Charts</h1></div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Chart 1 -->
+<!-- Chart 1 -->
+<canvas id="myChart" style="display: block; box-sizing: border-box; height: 20px; width: 20px;"></canvas>
 <script>
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const chartData = {
-        type: 'bar',
+    const ctx1 = document.getElementById('myChart').getContext('2d');
+    const chartData1 = {
+        type: 'radar',
         data: {
-            labels: ['Products', 'Users', 'Category'],
-            datasets: [
-        {
-                label: 'Products',
-                data: [{{ numberOfProducts }}, {{ numberOfUsers }}, {{ numberOfCategories }}],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                 
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(255, 206, 86, 1)',
-               
-                ],
-                borderWidth: 1,
-            },
-        ],
+            labels: ['Products', 'Users','Stock' ,'Category'],
+                            datasets: [
+                                {
+                                    label: 'data',
+                                    data: [{{ numberOfProducts }}, {{ numberOfUsers }},{{ numberOfStock }}, {{ numberOfCategories }}],
+                                    backgroundColor: [
+                                        'rgba(5, 200, 200, 0.2)',
+                                        'rgba(255, 20, 20, 0.5)',
+                                        'rgba(20, 20, 20, 0.5)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                    ],
+                    borderColor: [
+                        'rgba(100, 12, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 0,
+                },
+            ],
         },
-        
     };
-    new Chart(ctx, chartData);
+    new Chart(ctx1, chartData1);
 </script>
-</div>
-</div>
+
+            </div>
+
+            <div class="col-md-6">
+                <!-- Chart 2 -->
+                <canvas id="myChart1" style="display: block; box-sizing: border-box; height: 20px; width: 100px;"></canvas>
+                <script>
+                    const ctx2 = document.getElementById('myChart1').getContext('2d');
+                    const chartData2 = {
+                        type: 'pie',
+                        data: {
+                            labels: ['Products', 'Users','Stock' ,'Category'],
+                            datasets: [
+                                {
+                                    label: 'data',
+                                    data: [{{ numberOfProducts }}, {{ numberOfUsers }},{{ numberOfStock }}, {{ numberOfCategories }}],
+                                    backgroundColor: [
+                                        'rgba(5, 200, 200, 0.2)',
+                                        'rgba(255, 20, 20, 0.5)',
+                                        'rgba(20, 20, 20, 0.5)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                    ],
+                                    borderColor: [
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                    ],
+                                    borderWidth: 0,
+                                },
+                            ],
+                        },
+                    };
+                    new Chart(ctx2, chartData2);
+                </script>
+            </div>
+        </div>
+    </div>
 {% endblock %}

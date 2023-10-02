@@ -10,37 +10,26 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 class ChartController extends AbstractController
 {
-    #[Route('/chartjs', name: 'app_chartjs')]
-    public function chartjs(ChartBuilderInterface $chartBuilder): Response
+    
+    /**
+     * @Route("/api/chart/data", name="chart_data")
+     */
+    public function getData()
     {
-        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
-
-        $chart->setData([
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        // Replace this with your actual chart data retrieval logic
+        $chartData = [
+            'labels' => ['Products', 'Users', 'Stock', 'Category'],
             'datasets' => [
                 [
-                    'label' => 'Cookies eaten 🍪',
-                    'backgroundColor' => 'rgb(255, 99, 132, .4)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [2, 10, 5, 18, 20, 30, 45],
-                    'tension' => 0.4,
-                ],
-                [
-                    'label' => 'Km walked 🏃‍♀️',
-                    'backgroundColor' => 'rgba(45, 220, 126, .4)',
-                    'borderColor' => 'rgba(45, 220, 126)',
-                    'data' => [10, 15, 4, 3, 25, 41, 25],
-                    'tension' => 0.4,
+                    'label' => 'data',
+                    'data' => [10, 20, 15, 30], // Replace with your dynamic data
+                    'backgroundColor' => ['rgba(5, 200, 200, 0.2)', 'rgba(255, 20, 20, 0.5)', 'rgba(20, 20, 20, 0.5)', 'rgba(255, 206, 86, 0.2)'],
+                    'borderColor' => ['rgba(100, 12, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
                 ],
             ],
-        ]);
+        ];
 
-        $chart->setOptions([
-            'maintainAspectRatio' => false,
-        ]);
-
-        return $this->render('chart/chartjs.html.twig', [
-            'chart' => $chart,
-        ]);
+        return $this->json($chartData);
     }
+
 }

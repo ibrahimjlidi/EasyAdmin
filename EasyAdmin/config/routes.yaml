@@ -3,3 +3,12 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+list_products_for_angular:
+    path: /api/products
+    controller: App\Controller\Admin\ProductCrudController::listProductsForAngular
+    methods: ['GET']
+    # config/routes.yaml
+
+chart_data:
+    path: /api/chart/data
+    controller: App\Controller\ChartController::getData
